@@ -13,44 +13,20 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
 
     const db = client.db(databaseName)
 
-    
-    //How to use updateOne with $set(Sets the value of a field in a document)
-    // db.collection('users').updateOne({
-    //     _id: new ObjectID("5cc4c35cce0f0f28dd5fe2d9")
-    // },{
-    //     $set: {
-    //         name: 'Mathew'
-    //     }
+    //How to use deleteMany
+    // db.collection('users').deleteMany({
+    //     age: 27
     // }).then((result) => {
     //     console.log(result)
     // }).catch((error) => {
     //     console.log(error)
     // })
 
-
-    //How to use updateOne with $inc(Increments the value of the field by the specified amount.).
-    // db.collection('users').updateOne({
-    //     _id: new ObjectID("5cc4c35cce0f0f28dd5fe2d9")
-    // },{
-    //     $inc: {
-    //         age: 1
-    //     }
-    // }).then((result) => {
-    //     console.log(result)
-    // }).catch((error) => {
-    //     console.log(error)
-    // })
-
-    //How to use updateMany with $set(Sets the value of a field in a document)
-    db.collection('tasks').updateMany({
-        completed: false
-    },{
-        $set: {
-            completed: true
-        }
+    //How to use deleteOne
+    db.collection('tasks').deleteOne({
+        description : "ask for an IFood",
     }).then((result) => {
-        //Displays the amount of data changed
-        console.log(result.modifiedCount)
+        console.log(result)
     }).catch((error) => {
         console.log(error)
     })
