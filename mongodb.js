@@ -5,9 +5,6 @@ const { MongoClient, ObjectID} = require('mongodb')
 const connectionURL = 'mongodb://127.0.0.1:27017'
 const databaseName = 'task-manager'
 
-const id = new ObjectID()
-console.log(id.id.length)
-console.log(id.toHexString().length)
 
 MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) => {
     if(error){
@@ -16,51 +13,29 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
 
     const db = client.db(databaseName)
 
-    //How to insert only one data in the database
-    // db.collection('users').insertOne({
-    //     name: 'Izadora',
-    //     age: 23
-    // }, (error, result) => {
-    //     if(error){
-    //         return console.log('Unable to insert user')
+    // db.collection('users').findOne({ _id: new ObjectID('5cc4bbf5eeebf6235b6d2d36') }, (error, user) => {
+    //     if (error){
+    //         return console.log('Unable to fetch')
     //     }
 
-    //     console.log(result.ops)
+    //     console.log(user)
     // })
 
-    // 
-    // db.collection('users').insertMany([
-    //     {
-    //         name: 'Messias',
-    //         agr: 25
-    //     },{
-    //         name: 'Bruno',
-    //         age: 35
-    //     }
-    // ], (error, result) => {
-    //     if(error){
-    //         return console.log('Unable to insert documents!')
-    //     }
-
-    //     console.log(result.ops)
+    // db.collection('users').find({ age: 25 }).toArray((error, users) =>{
+    //     console.log(users)
     // })
 
-    // db.collection('tasks').insertMany([
-    //     {
-    //         description: 'Go to market.',
-    //         completed: true
-    //     },{
-    //         description: 'Go to bar.',
-    //         completed: false
-    //     },{
-    //         description: 'ask for an IFood',
-    //         completed: true
-    //     }
-    // ], (error, result) => {
-    //     if(error){
-    //         return console.log('Unable to insert documents')
-    //     }
-
-    //     console.log(result.ops)
+    // db.collection('users').find({ age: 25 }).count((error, count) =>{
+    //     console.log(count)
     // })
+
+    db.collection('tasks').findOne({ _id: new ObjectID('5cc4d24324a9f32f29f2ffe7') },(error, task) => {
+        console.log('The last task added.')
+        console.log(task)
+    } )
+
+    db.collection('tasks').find( {completed: false} ).toArray((error, tasks) => {
+        console.log('All tasks that have not been completed.')
+        console.log(tasks)
+    })
 })
