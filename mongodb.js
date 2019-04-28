@@ -13,29 +13,45 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
 
     const db = client.db(databaseName)
 
-    // db.collection('users').findOne({ _id: new ObjectID('5cc4bbf5eeebf6235b6d2d36') }, (error, user) => {
-    //     if (error){
-    //         return console.log('Unable to fetch')
+    
+    //How to use updateOne with $set(Sets the value of a field in a document)
+    // db.collection('users').updateOne({
+    //     _id: new ObjectID("5cc4c35cce0f0f28dd5fe2d9")
+    // },{
+    //     $set: {
+    //         name: 'Mathew'
     //     }
-
-    //     console.log(user)
+    // }).then((result) => {
+    //     console.log(result)
+    // }).catch((error) => {
+    //     console.log(error)
     // })
 
-    // db.collection('users').find({ age: 25 }).toArray((error, users) =>{
-    //     console.log(users)
+
+    //How to use updateOne with $inc(Increments the value of the field by the specified amount.).
+    // db.collection('users').updateOne({
+    //     _id: new ObjectID("5cc4c35cce0f0f28dd5fe2d9")
+    // },{
+    //     $inc: {
+    //         age: 1
+    //     }
+    // }).then((result) => {
+    //     console.log(result)
+    // }).catch((error) => {
+    //     console.log(error)
     // })
 
-    // db.collection('users').find({ age: 25 }).count((error, count) =>{
-    //     console.log(count)
-    // })
-
-    db.collection('tasks').findOne({ _id: new ObjectID('5cc4d24324a9f32f29f2ffe7') },(error, task) => {
-        console.log('The last task added.')
-        console.log(task)
-    } )
-
-    db.collection('tasks').find( {completed: false} ).toArray((error, tasks) => {
-        console.log('All tasks that have not been completed.')
-        console.log(tasks)
+    //How to use updateMany with $set(Sets the value of a field in a document)
+    db.collection('tasks').updateMany({
+        completed: false
+    },{
+        $set: {
+            completed: true
+        }
+    }).then((result) => {
+        //Displays the amount of data changed
+        console.log(result.modifiedCount)
+    }).catch((error) => {
+        console.log(error)
     })
 })
