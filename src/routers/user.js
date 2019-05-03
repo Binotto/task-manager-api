@@ -14,6 +14,10 @@ router.get('/users', async (req, res) => {
 
 })
 
+router.post('/users/login', async (req, res) => {
+
+})
+
 //Finding a user by id
 router.get('/users/:id', async (req, res) => {
     const _id = req.params.id
@@ -54,11 +58,15 @@ router.patch('/users/:id', async(req, res) => {
     }
 
     try{
-        const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+        const user = await User.findById(req.params.id)
+        
+        updates.forEach((update) => user[update] = req.body[update])
+        await user.save()
+
     
-    if (!user) {
-        return res.status(404).send()
-    }
+        if (!user) {
+            return res.status(404).send()
+        }
 
     res.send(user)
     }catch(error){
