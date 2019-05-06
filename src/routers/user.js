@@ -3,7 +3,7 @@ const User = require('../models/user')
 const auth = require('../middleware/auth')
 const router = new express.Router()
 
-//Finding all users
+//Finding profile
 router.get('/users/me', auth, async (req, res) => {
     res.send(req.user)
 })
@@ -46,22 +46,6 @@ router.post('/users/logoutAll', auth, async (req, res) => {
     }
 })
 
-//Finding a user by id
-router.get('/users/:id', async (req, res) => {
-    const _id = req.params.id
-    try{
-        const user = await User.findById(_id)
-
-        if(!user){
-            return res.status(404).send()
-        }
-
-        res.send(user)
-    }catch (error) {
-        res.status(500).send()
-    }
-})
-
 //Creating a new user
 router.post('/users', async (req, res) => { 
     const user = new User(req.body)
@@ -76,8 +60,8 @@ router.post('/users', async (req, res) => {
     
 })
 
-//Updating user by id
-router.patch('/users/:id', async(req, res) => {
+//Updating user
+router.patch('/users/me', auth, async(req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'e-mail', 'password', 'age']
     const isValidateOperation = updates.every((update) => allowedUpdates.includes(update))
@@ -87,32 +71,21 @@ router.patch('/users/:id', async(req, res) => {
     }
 
     try{
-        const user = await User.findById(req.params.id)
         
-        updates.forEach((update) => user[update] = req.body[update])
-        await user.save()
+        updates.forEach((update) => req.user[update] = req.body[update])
+        await req.user.save()
 
-    
-        if (!user) {
-            return res.status(404).send()
-        }
-
-    res.send(user)
+        res.send(req.user)
     }catch(error){
         res.status(400).send(error)
     }
 })
 
-//Deleting user by id
-router.delete('/users/:id', async (req, res) => {
+//Deleting user
+router.delete('/users/me', auth, async (req, res) => {
     try{
-        const user = await User.findByIdAndDelete(req.params.id)
-
-        if(!user){
-            return res.status(404).send()
-        }
-
-        res.send(user)
+        req.user.remove()
+        res.send(req.user)
     }catch (error){
 
     }
