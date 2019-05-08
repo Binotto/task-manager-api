@@ -1,6 +1,7 @@
 const express = require ('express')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
+const multer = require('multer')
 const router = new express.Router()
 
 //Finding profile
@@ -89,6 +90,13 @@ router.delete('/users/me', auth, async (req, res) => {
     }catch (error){
 
     }
+})
+
+const avatar = multer ({
+    dest: 'avatars'
+})
+router.post('/users/me/avatar', avatar.single('avatar'), (req, res) => {
+        res.send()
 })
 
 module.exports = router
