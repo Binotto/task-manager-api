@@ -41,6 +41,8 @@ const upload = multer ({
         fileSize: 1000000
     }
 })
-app.post('/upload', upload.single('upload'),  (req, res) => {
+app.post('/upload', upload.single('upload'), (req, res) => {
     res.send()
+}, (error, req, res, next) =>{
+    res.status(400).send({ error: error.message })
 })
