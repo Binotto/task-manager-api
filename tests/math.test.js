@@ -2,7 +2,7 @@ const {calculateTip, fahrenheitToCelsius, celsiusToFahrenheit, add} = require ('
 
 test('Should calculate total with tip.', () => {
     const total = calculateTip(10, .3)
-    expect(total).toBe(13)
+    expect(total).toBe(13) 
 })
 
 test('Should calculate total with default tip.', () => {
@@ -36,6 +36,6 @@ test('Should add two numbers', (done) => {
 })
 
 test('Should add two numbers async/await', async () => {
-    const sum = await add(10, 27)
+    const sum = await add(10, 22)
     expect(sum).toBe(32)
 })
