@@ -88,8 +88,8 @@ router.patch('/users/me', auth, async(req, res) => {
 //Deleting user
 router.delete('/users/me', auth, async (req, res) => {
     try{
+        await req.user.remove()
         sendCancelationEmail(req.user.email, req.user.name)
-        req.user.remove()
         res.send(req.user)
     }catch (error){
         res.status(500).send()
